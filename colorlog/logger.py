@@ -105,7 +105,7 @@ def debug_print(
         inline=False
     ):
     debug_msg(msg, level, color=color, inline=inline)
-    if args != None:
+    if args is not None:
         print(args)
 
 
@@ -309,4 +309,3 @@ class ColorLogger:
 if __name__ == "__main__":
     test_debug_log_functions()
     # test_get_space_dim()
-    pass
