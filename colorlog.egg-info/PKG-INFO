@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: colorlog
-Version: 0.0.1
-Summary: A simple logger supporting colorful terminal outputs.
-Author: JimmyDeng
-Author-email: jimmydengpeng@gmail.com
-License: Apache 2.0
-License-File: LICENSE.txt

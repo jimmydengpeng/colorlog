@@ -1,9 +1,0 @@
-LICENSE.txt
-README.md
-setup.py
-colorlog/__init__.py
-colorlog/logger.py
-colorlog.egg-info/PKG-INFO
-colorlog.egg-info/SOURCES.txt
-colorlog.egg-info/dependency_links.txt
-colorlog.egg-info/top_level.txt
