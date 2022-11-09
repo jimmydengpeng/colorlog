@@ -1,5 +1,4 @@
-from colorlog.logger import ColorLogger
+from colorlog.logger import logger
 
-logger = ColorLogger()
 
 __all__ = ["logger"]

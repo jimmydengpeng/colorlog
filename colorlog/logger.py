@@ -1,21 +1,12 @@
 from enum import Enum
 from time import time
-from typing import Any, Optional
+from typing import Any, Optional, Union
 import json, yaml, numbers
 import numpy as np
-'''
-color2num = dict(
-    gray=30,
-    red=31,
-    green=32,
-    yellow=33,
-    blue=34,
-    magenta=35,
-    cyan=36,
-    white=37,
-    crimson=38
-)
-'''
+
+
+
+
 
 class Color(Enum):
     # names    =    values
@@ -105,6 +96,11 @@ def debug_print(
         inline=False
     ):
     debug_msg(msg, level, color=color, inline=inline)
+
+    ''' pretty print dict '''
+    if isinstance(args, dict):
+        args = pretty_dict(args)
+
     if args is not None:
         print(args)
 
@@ -134,16 +130,8 @@ class SafeFallbackEncoder(json.JSONEncoder):
             return str(value)  # give up, just stringify it (ok for logs)
 
 # from CoPO
-def pretty_print(result):
-    result = result.copy()
-    result.update(config=None)  # drop config from pretty print
-    result.update(hist_stats=None)  # drop hist_stats from pretty print
-    out = {}
-    for k, v in result.items():
-        if v is not None:
-            out[k] = v
-
-    cleaned = json.dumps(out, cls=SafeFallbackEncoder)
+def pretty_dict(result):
+    cleaned = json.dumps(result.copy(), cls=SafeFallbackEncoder)
     return yaml.safe_dump(json.loads(cleaned), default_flow_style=False)
 
 
@@ -151,7 +139,6 @@ def get_formatted_time():
     """
     return: e.g. 20220921_200435
     """
-    import time
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
 def pretty_time(time_in_sec) -> str:
@@ -249,6 +236,48 @@ def time_str(s, simple=False):
         return string
 
 
+# TODO: add time,
+# TODO: module name automatically
+# TODO: line number
+# TODO: more args, args in tuple 
+class ColorLogger:
+    def __init__(self, level):
+        self._level = level
+
+    # TODO
+    def set_level(self, level=Union[dict, LogLevel]):
+        self._level = level
+
+    def info(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.INFO, inline=inline)
+
+    def debug(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.DEBUG, inline=inline)
+
+    def warning(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.WARNING, inline=inline)
+
+    def error(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.ERROR, inline=inline)
+
+    def success(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.SUCCESS, inline=inline)
+
+    def log(self, msg, args=None, inline=False):
+        ''' Assignable color '''
+        debug_print(msg, args, color=Color.CYAN, inline=inline)
+
+    def print(self, args=None, inline=False):
+        ''' print args without msg & with defaul prompt >>> '''
+        debug_print("", args, color=Color.CYAN, inline=inline)
+
+    def time(self, msg, args=None, inline=False):
+        ''' log time & msg '''
+        pass
+
+
+
+''' tests '''
 def test_debug_log_functions():
     print("="*10 + " every color " + "="*10)
     for c in Color:
@@ -277,35 +306,24 @@ def test_debug_log_functions():
     debug_print("hello", args="world")
     print("")
 
-# TODO: add time, module name automatically
-# TODO: line number
-class ColorLogger:
-    def __init__(self):
-        pass
+def test_pretty_print():
+    args = dict(
+        id=42,
+        name=dict(first_name='Jimmy',
+                    last_name='Deng'),
+        sexual='male',
+        age=30,
+        info='Hello world!',
+        arr=np.array([[1, 2], [3, 4]]),
+        email=dict(a=['xxx', 'yyys', 'zzz'], b='bbb')
+    )
+    logger.debug('int:', 42, True)
+    logger.debug('args:', args)
 
-    def info(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.INFO, inline=inline)
 
-    def debug(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.DEBUG, inline=inline)
-
-    def warning(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.WARNING, inline=inline)
-
-    def error(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.ERROR, inline=inline)
-
-    def success(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.SUCCESS, inline=inline)
-
-    def log(self, msg, args=None, inline=False):
-        ''' Assignable color '''
-        debug_print(msg, args, color=Color.CYAN, inline=inline)
-
-    def print(self, args=None, inline=False):
-        ''' print args without msg & with defaul prompt >>> '''
-        debug_print("", args, color=Color.CYAN, inline=inline)
+logger = ColorLogger(level=None)
 
 if __name__ == "__main__":
-    test_debug_log_functions()
+    # test_debug_log_functions()
     # test_get_space_dim()
+    test_pretty_print()
