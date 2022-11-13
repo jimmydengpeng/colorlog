@@ -3,9 +3,7 @@ from time import time
 from typing import Any, Optional, Union
 import json, yaml, numbers
 import numpy as np
-
-
-
+from humanfriendly.tables import format_pretty_table
 
 
 class Color(Enum):
@@ -34,6 +32,17 @@ def colorize(string: str, color=Color.WHITE, bold=True, highlight=False) -> str:
     attr.append(str(num))
     if bold: attr.append('1')
     return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), string)
+
+
+'''
+-----------------------
+| DEBUG    | debug    |
+| INFO     | info     |
+| WARNING  | warning  |
+| SUCCESS  | success  |
+| ERROR    | error    |
+-----------------------
+'''
 
 class LogLevel(Enum):
     # enumerated constants 
@@ -321,9 +330,23 @@ def test_pretty_print():
     logger.debug('args:', args)
 
 
+def test_format_pretty_table():
+    column_names = ['Version', 'Uploaded on', 'Downloads']
+
+    humanfriendly_releases = [
+        ['1.23', '2015-05-25', '218'],
+        ['1.23.1', '2015-05-26', '1354'],
+        ['1.24', '2015-05-26', '223'],
+        ['1.25', '2015-05-26', '4319'],
+        ['1.25.1', '2015-06-02', '197'],
+    ]
+    print(format_pretty_table(humanfriendly_releases, column_names))
+
+''' API Instance '''
 logger = ColorLogger(level=None)
 
 if __name__ == "__main__":
     # test_debug_log_functions()
     # test_get_space_dim()
-    test_pretty_print()
+    # test_pretty_print()
+    test_format_pretty_table()
