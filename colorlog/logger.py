@@ -14,6 +14,7 @@ from humanfriendly.tables import format_pretty_table
 # TODO:
 # - [ ] 自动根据说所打印的字符长度判断是否换行
 # - [ ] 设置全局的开关，根据level控制是否打印
+# - [ ] 方法重载，允许打印单个参数，不带提示字符串
 
 
 class Color(Enum):
