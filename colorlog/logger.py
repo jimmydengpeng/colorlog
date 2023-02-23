@@ -1,9 +1,19 @@
+#######################################################################
+# Copyright (C) 2023 Jimmy Deng (jimmydengpeng@gmail.com)             #
+# Permission given to modify the code as long as you keep this        #
+# declaration at the top                                              #
+#######################################################################
+
 from enum import Enum
 from time import time
 from typing import Any, Optional, Union
 import json, yaml, numbers
 import numpy as np
 from humanfriendly.tables import format_pretty_table
+
+# TODO:
+# - [ ] 自动根据说所打印的字符长度判断是否换行
+# - [ ] 设置全局的开关，根据level控制是否打印
 
 
 class Color(Enum):
@@ -17,6 +27,21 @@ class Color(Enum):
     CYAN       =    36
     WHITE      =    37
     CRIMSON    =    38
+
+    @classmethod
+    def is_valid_color(cls, name: str) -> bool:
+        for color in cls:
+            if name.upper() == color.name:
+                return True
+        return False
+    
+    @classmethod
+    def get_color_by_name(cls, name: str):
+        assert Color.is_valid_color(name)
+        for color in cls:
+            if name.upper() == color.name:
+                return color
+
 
 
 def colorize(string: str, color=Color.WHITE, bold=True, highlight=False) -> str:
@@ -95,7 +120,8 @@ def debug_msg(
         # print(colorize(prompt, bold=True), colorize(msg, color=level.value, bold=bold))
         print(prompt, colorize(msg, color=level.value, bold=bold), end=end)
     else:
-        print(colorize(">>>", bold=True), colorize(msg, color=color, bold=bold), end=end)
+        # print(colorize(">>>", bold=True), colorize(msg, color=color, bold=bold), end=end)
+        print(colorize(msg, color=color, bold=bold), end=end)
 
 def debug_print(
         msg: str,
@@ -257,11 +283,11 @@ class ColorLogger:
     def set_level(self, level=Union[dict, LogLevel]):
         self._level = level
 
-    def info(self, msg, args=None, inline=False):
-        debug_print(msg, args, level=LogLevel.INFO, inline=inline)
-
     def debug(self, msg, args=None, inline=False):
         debug_print(msg, args, level=LogLevel.DEBUG, inline=inline)
+    
+    def info(self, msg, args=None, inline=False):
+        debug_print(msg, args, level=LogLevel.INFO, inline=inline)
 
     def warning(self, msg, args=None, inline=False):
         debug_print(msg, args, level=LogLevel.WARNING, inline=inline)
@@ -272,9 +298,13 @@ class ColorLogger:
     def success(self, msg, args=None, inline=False):
         debug_print(msg, args, level=LogLevel.SUCCESS, inline=inline)
 
-    def log(self, msg, args=None, inline=False):
+    def log(self, msg, args=None, color: Optional[str] = None, inline=False):
         ''' Assignable color '''
-        debug_print(msg, args, color=Color.CYAN, inline=inline)
+        _color = Color.CYAN
+        if color and Color.is_valid_color(color):
+            _color = Color.get_color_by_name(color)
+
+        debug_print(msg, args, color=_color, inline=inline)
 
     def print(self, args=None, inline=False):
         ''' print args without msg & with defaul prompt >>> '''
@@ -345,8 +375,10 @@ def test_format_pretty_table():
 ''' API Instance '''
 logger = ColorLogger(level=None)
 
+
 if __name__ == "__main__":
     # test_debug_log_functions()
     # test_get_space_dim()
     # test_pretty_print()
-    test_format_pretty_table()
+    # test_format_pretty_table()
+    logger.log("dada", color="green")
