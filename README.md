@@ -1,5 +1,6 @@
 # ColorLog
-https://img.shields.io/github/license/jimmydengpeng/colorlog
+
+![GitHub](https://img.shields.io/github/license/jimmydengpeng/colorlog)
 
 **ColorLog** is a lightweight logger that makes logging to the terminal easy and pretty for python.
 
