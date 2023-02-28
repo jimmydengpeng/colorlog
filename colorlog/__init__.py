@@ -1,4 +1,4 @@
-from .logger import logger
+from .colorlog import logger
 
 
-__all__ = ["logger"]
+__all__ = ["colorlog"]

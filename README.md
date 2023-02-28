@@ -12,7 +12,8 @@ This is self-made & self-used module for coloring logging infomation. Welcome an
 - [ ] Upload to PyPI
 
 ## Installation
-
+### Font
+The recommended font is `MesloLGS NF`.
 
 ## Usage
 To use **colorlog**, just import the pre-instantiated `logger` into your code.

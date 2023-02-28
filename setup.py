@@ -1,6 +1,7 @@
 import sys
 from setuptools import setup
 
+# F-strings is requried
 assert sys.version_info.major == 3 and sys.version_info.minor >= 6, "python version >= 3.6 is required"
 
 setup(

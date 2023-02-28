@@ -154,4 +154,4 @@ dmypy.json
 cython_debug/
 
 # for debugging
-test.py
+colorlog/test.py
