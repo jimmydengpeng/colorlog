@@ -7,7 +7,7 @@
 from enum import Enum, IntEnum
 from time import time
 from typing import Any, Optional, Union, List
-from utils import *
+from utils import colorize, pretty_dict
 
 # TODO:
 # - [ ] 自动根据说所打印的字符长度判断是否换行
