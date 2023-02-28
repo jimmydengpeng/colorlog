@@ -9,17 +9,20 @@ from time import time
 from typing import Any, Optional, Union, List
 from utils import colorize, pretty_dict
 
-# TODO:
-# - [ ] 自动根据说所打印的字符长度判断是否换行
-# - [ ] 设置全局的开关，根据level控制是否打印
-# - [ ] 方法重载，允许打印单个参数，不带提示字符串
+'''TODO
+- [x] 自动根据说所打印的字符长度判断是否换行
+- [x] 设置全局的开关，根据level控制是否打印
+- [ ] 允许打印单个参数，不带提示字符串
+- [ ] add time,
+- [ ] module name automatically
+- [ ] line number
+- [ ] more args, args in tuple 
+'''
 
-
-"""
-@DOCUMENT:
+"""@DOCUMENT:
 
 A log contains:
-[PROMPT] [TIME]<Optional> [User input massage] [args]
+[PROMPT] <Optional>[TIME] [User input massage] [args]
 
 The printing process is devided into 2 parts:
 1. print a colored PROMPT
@@ -28,15 +31,16 @@ The printing process is devided into 2 parts:
 
 class Color(IntEnum):
     # names    =    values
-    GRAY       =    30
+    BLACK      =    30
     RED        =    31
     GREEN      =    32
     YELLOW     =    33
     BLUE       =    34
     MAGENTA    =    35     #品红
-    CYAN       =    36     #蓝绿
+    CYAN       =    36     #蓝绿/青
     WHITE      =    37
     CRIMSON    =    38
+    GRAY       =    90
 
     @classmethod
     def is_valid(cls, name: str) -> bool:
@@ -63,24 +67,6 @@ All Log Levels:
 | ERROR    | error    |
 -----------------------
 '''
-
-class BASE_ENUM:
-    @classmethod
-    def is_valid(cls, name: str) -> bool:
-        for enum in cls:
-            if name.upper() == enum.name:
-                return True
-        return False
-    
-    @classmethod
-    def get_by_name(cls, name: str):
-        assert Color.is_valid(name)
-        for color in cls:
-            if name.upper() == color.name:
-                return color
-
-
-# TODO change the value
 class LOG_LEVEL(IntEnum):
     DEBUG   = 0
     INFO    = 1
@@ -114,17 +100,20 @@ PROMPT_SYMBOL = {
 }
 '''alternatives:  ➤  ☞ ⚑  ◎ ⊙  ⇨ ▶'''
 
-# TODO: add time,
-# TODO: module name automatically
-# TODO: line number
-# TODO: more args, args in tuple 
+
 class ColorLogger:
-    def __init__(self, level: str = "DEBUG", max_line_len: int = 70):
+    def __init__(
+            self,
+            level: str = "DEBUG",
+            type_hinting: bool = True,
+            max_line_len: int = 70
+        ):
         if LOG_LEVEL.is_valid(level):
             self._level_threshold = LOG_LEVEL[level]
         else:
             self.warning(f"Invalid log level {str}, set to default 'DEBUG'!")
             self._level_threshold = LOG_LEVEL.DEBUG
+        self._type_hinting = type_hinting
         self.MAX_LINE_LEN = max_line_len
 
     def _log(
@@ -144,11 +133,12 @@ class ColorLogger:
             inline = self._if_inline(args)
         self._log_prompt_msg(msg, level, color=color, inline=inline)
         self._log_args(args)
+        if self._type_hinting:
+            self._log_type(args)
 
+
+    # TODO: update policy
     def _if_inline(self, args) -> bool:
-
-        print(args)
-        print(type(args))
         if isinstance(args, dict):
             return False
         else:
@@ -190,6 +180,12 @@ class ColorLogger:
 
         print(prompt, colorize(msg, color=color_code, bold=bold), end=end)
 
+    def _log_type(self, args):
+        # print(colorize(type(args), Color.GRAY.value, highlight=True))
+        # print(colorize(type(args), Color.GRAY.value, highlight=False))
+        print(colorize(type(args), Color.BLACK.value, highlight=True))
+        # print(colorize(type(args), Color.BLACK.value, highlight=False))
+
     def _log_args(
             self,
             args
@@ -200,6 +196,7 @@ class ColorLogger:
 
         if args is not None:
             print(args)
+
 
     """APIs"""
     # TODO
@@ -214,6 +211,8 @@ class ColorLogger:
         else:
             raise NotImplementedError()
 
+    def set_type_hinting(self, type_hinting: bool):
+        self._type_hinting = type_hinting
 
     def debug(self, msg, args=None, inline=None):
         self._log(msg, args, level=LOG_LEVEL.DEBUG, inline=inline)
@@ -231,6 +230,7 @@ class ColorLogger:
         self._log(msg, args, level=LOG_LEVEL.SUCCESS, inline=inline)
 
 
+    # TODO
     def log(self, msg, args=None, color: Optional[str] = None, inline=True):
         ''' Assignable color '''
         _color = Color.CYAN
