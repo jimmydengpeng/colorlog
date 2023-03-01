@@ -7,7 +7,7 @@
 from enum import IntEnum
 from time import time
 from typing import Optional, Union, List
-from utils import colorize, pretty_dict
+from .utils import colorize, pretty_dict
 
 '''TODO
 - [x] 自动根据说所打印的字符长度判断是否换行
@@ -247,6 +247,3 @@ class ColorLogger:
         ''' log time & msg '''
         pass
 
-
-''' API Instance '''
-logger = ColorLogger()
