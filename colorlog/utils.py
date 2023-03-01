@@ -75,6 +75,7 @@ def get_formatted_time():
     """
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
+#TODO
 def pretty_time(time_in_sec) -> str:
     unit_s = colorize("s", color=Color.GREEN, bold=False)
     unit_m = colorize("m", color=Color.YELLOW, bold=False)

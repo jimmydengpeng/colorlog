@@ -4,9 +4,9 @@
 # declaration at the top                                              #
 #######################################################################
 
-from enum import Enum, IntEnum
+from enum import IntEnum
 from time import time
-from typing import Any, Optional, Union, List
+from typing import Optional, Union, List
 from utils import colorize, pretty_dict
 
 '''TODO
@@ -29,7 +29,7 @@ The printing process is devided into 2 parts:
 2. print the args
 """
 
-class Color(IntEnum):
+class COLOR(IntEnum):
     # names    =    values
     BLACK      =    30
     RED        =    31
@@ -51,7 +51,7 @@ class Color(IntEnum):
     
     @classmethod
     def get_by_name(cls, name: str):
-        assert Color.is_valid(name)
+        assert COLOR.is_valid(name)
         for color in cls:
             if name.upper() == color.name:
                 return color
@@ -83,11 +83,11 @@ class LOG_LEVEL(IntEnum):
 
 
 LEVEL_COLOR = {
-    LOG_LEVEL.SUCCESS: Color.GREEN,
-    LOG_LEVEL.DEBUG:   Color.MAGENTA,
-    LOG_LEVEL.INFO:    Color.BLUE,
-    LOG_LEVEL.WARNING: Color.YELLOW,
-    LOG_LEVEL.ERROR:   Color.RED
+    LOG_LEVEL.SUCCESS: COLOR.GREEN,
+    LOG_LEVEL.DEBUG:   COLOR.MAGENTA,
+    LOG_LEVEL.INFO:    COLOR.BLUE,
+    LOG_LEVEL.WARNING: COLOR.YELLOW,
+    LOG_LEVEL.ERROR:   COLOR.RED
 }
 
 PROMPT_SYMBOL = {
@@ -121,7 +121,7 @@ class ColorLogger:
             msg: str,
             args=None,
             level: LOG_LEVEL = None,
-            color: Optional[Color] = None,
+            color: Optional[COLOR] = None,
             inline: bool = None
         ):
 
@@ -153,7 +153,7 @@ class ColorLogger:
             level: LOG_LEVEL,
             inline: bool,
             bold: bool = False,
-            color: Optional[Color] = None
+            color: Optional[COLOR] = None
         ):
         """
         @return: symbol + msg (same color)
@@ -183,7 +183,7 @@ class ColorLogger:
     def _log_type(self, args):
         # print(colorize(type(args), Color.GRAY.value, highlight=True))
         # print(colorize(type(args), Color.GRAY.value, highlight=False))
-        print(colorize(type(args), Color.BLACK.value, highlight=True))
+        print(colorize(type(args), COLOR.BLACK.value, highlight=True))
         # print(colorize(type(args), Color.BLACK.value, highlight=False))
 
     def _log_args(
@@ -233,15 +233,15 @@ class ColorLogger:
     # TODO
     def log(self, msg, args=None, color: Optional[str] = None, inline=True):
         ''' Assignable color '''
-        _color = Color.CYAN
-        if color and Color.is_valid(color):
-            _color = Color.get_by_name(color)
+        _color = COLOR.CYAN
+        if color and COLOR.is_valid(color):
+            _color = COLOR.get_by_name(color)
 
         self._log(msg, args, color=_color, inline=inline)
 
     def print(self, args=None, inline=False):
         ''' print args without msg & with defaul prompt >>> '''
-        self._log("", args, color=Color.CYAN, inline=inline)
+        self._log("", args, color=COLOR.CYAN, inline=inline)
 
     def time(self, msg, args=None, inline=False):
         ''' log time & msg '''
