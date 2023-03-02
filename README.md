@@ -33,8 +33,9 @@ logger.warning("prompt:", your_args)
 logger.success("prompt:", your_args)
 logger.error("prompt:", your_args)
 ```
-The output in the Terminal will look liks e this:
-![](docs/images/output.png)
+
+The output in the Terminal will look like this:
+![](docs/images/terminal_output.png)
 
 
 For other detailed APIs please check the code!
