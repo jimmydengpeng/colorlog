@@ -8,8 +8,8 @@ This is self-made & self-used module for coloring logging infomation. Welcome an
 
 ## TODO
 - [x] Auto-inline
-- [ ] Add requirements
-- [ ] Upload to PyPI
+- [x] Add requirements
+- [x] Upload to PyPI
 
 ## Installation
 
@@ -17,7 +17,6 @@ This is self-made & self-used module for coloring logging infomation. Welcome an
 The recommended font is `MesloLGS NF`.
 
 ### Install from PyPI
-TODO
 ```shell
 pip install colorlog-python
 ```
@@ -34,6 +33,8 @@ logger.warning("prompt:", your_args)
 logger.success("prompt:", your_args)
 logger.error("prompt:", your_args)
 ```
+The output in the Terminal will look liks e this:
+![](docs/images/output.png)
+
 
 For other detailed APIs please check the code!
-
