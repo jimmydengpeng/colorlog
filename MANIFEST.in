@@ -1,0 +1,3 @@
+exclude colorlog/test.py
+exclude colorlog\\test.py
+exclude colorlog\test.py
