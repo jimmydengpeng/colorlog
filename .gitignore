@@ -155,3 +155,4 @@ cython_debug/
 
 # for debugging
 colorlog/test.py
+test/

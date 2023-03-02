@@ -105,8 +105,8 @@ class ColorLogger:
     def __init__(
             self,
             level: str = "DEBUG",
-            type_hinting: bool = True,
-            max_line_len: int = 70
+            type_hinting: bool = False,
+            max_line_len: int = 80
         ):
         if LOG_LEVEL.is_valid(level):
             self._level_threshold = LOG_LEVEL[level]

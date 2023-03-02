@@ -19,7 +19,7 @@ The recommended font is `MesloLGS NF`.
 ### Install from PyPI
 TODO
 ```shell
-pip install colorlog
+pip install colorlog-python
 ```
 
 ## Usage
@@ -28,7 +28,11 @@ To use **colorlog**, just import the pre-instantiated `logger` into your code.
 ```python
 from colorlog import logger
 
-logger.debug("prompt:", args)
+logger.debug("prompt:", your_args)
+logger.info("prompt:", your_args)
+logger.warning("prompt:", your_args)
+logger.success("prompt:", your_args)
+logger.error("prompt:", your_args)
 ```
 
 For other detailed APIs please check the code!
