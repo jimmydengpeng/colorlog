@@ -202,7 +202,7 @@ class ColorLogger:
     # TODO
     def set_level(self, level=Union[str, List[str], LOG_LEVEL]):
         if isinstance(level, str):
-            self._level_threshold = LOG_LEVEL[level]
+            self._level_threshold = LOG_LEVEL[level.upper()]
         elif isinstance(level, LOG_LEVEL):
             self._level_threshold = level
         elif isinstance(level, list):
