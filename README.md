@@ -10,6 +10,8 @@ This is self-made & self-used module for coloring logging infomation. Welcome an
 - [x] Auto-inline
 - [x] Add requirements
 - [x] Upload to PyPI
+- [ ] Mutable number of API inputs, i.e., optional prompt or args
+- [ ] log which file path the line of code in
 
 ## Installation
 
